@@ -115,6 +115,10 @@
   .tool-go:hover{background:var(--green-d);}
   .tool-go::after{content:'↗';}
   .tool-go.done{background:var(--gold);color:#3a2800;}
+  .tool-btns{display:flex;gap:8px;flex-wrap:wrap;}
+  .tool-go.alt{background:var(--bg2);color:var(--green-d);border:2px solid var(--green);}
+  .tool-go.alt:hover{background:var(--tint);}
+  .tool-go.alt.done{background:var(--gold);color:#3a2800;border-color:var(--gold);}
   .tool-card.done{border-top-color:var(--gold);}
   .prompt{margin:10px 0 4px;background:#16241c;color:#dff3e6;border-radius:10px;padding:11px 13px;font-size:.82rem;line-height:1.7;white-space:pre-wrap;font-family:'Noto Sans TC',monospace;}
   .prompt .pl{display:block;color:#7fe0a6;font-weight:800;font-size:.72rem;margin-bottom:4px;letter-spacing:.05em;}
@@ -350,21 +354,21 @@
     <h2 class="sec-title">今天會用到的 <span class="em">8 個招式</span></h2>
     <p class="sec-desc">每張卡片附「可直接複製的 prompt」。點「開啟工具」會在新分頁打開對應 AI；產出後記得<b>截圖</b>，到「提案」上傳。</p>
     <div class="grid g2">
-      <div class="card tool-card"><h3><span class="num">01</span>菜單設計 · 一段話生整套</h3><p>從食材、品名到定價，告訴 AI 店型／客群／預算／風格，一次出 4 道菜。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>我是一家社區義大利麵店，7/15-8/8 想推父親節主題，預算 1280 元/組。幫我設計 4 道菜的雙人套餐，含品名、口味描述、定價建議、給長輩的吃法說明。</div><button class="tool-go" data-key="menu" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button></div>
+      <div class="card tool-card"><h3><span class="num">01</span>菜單設計 · 一段話生整套</h3><p>從食材、品名到定價，告訴 AI 店型／客群／預算／風格，一次出 4 道菜。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>我是一家社區義大利麵店，7/15-8/8 想推父親節主題，預算 1280 元/組。幫我設計 4 道菜的雙人套餐，含品名、口味描述、定價建議、給長輩的吃法說明。</div><div class="tool-btns"><button class="tool-go" data-key="menu" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button><button class="tool-go alt" data-key="menu_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div></div>
 
-      <div class="card tool-card"><h3><span class="num">02</span>海報文案 · 5 分鐘出 5 版</h3><p>一次要 5 種風格，挑一個「最對味」+ 一個「讓你嚇一跳」的去 Canva 套版。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>幫我生父親節活動海報文案 5 個版本：1.溫情風 2.幽默風 3.高級風 4.直接促銷風 5.故事風。每版主標 1 句、副標 1 句、CTA 1 句。</div><button class="tool-go" data-key="poster" data-url="https://www.canva.com" onclick="markTool(this)">開啟 Canva</button></div>
+      <div class="card tool-card"><h3><span class="num">02</span>海報文案 · 5 分鐘出 5 版</h3><p>一次要 5 種風格，挑一個「最對味」+ 一個「讓你嚇一跳」的去 Canva 套版。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>幫我生父親節活動海報文案 5 個版本：1.溫情風 2.幽默風 3.高級風 4.直接促銷風 5.故事風。每版主標 1 句、副標 1 句、CTA 1 句。</div><div class="tool-btns"><button class="tool-go" data-key="poster" data-url="https://www.canva.com" onclick="markTool(this)">開啟 Canva</button><button class="tool-go alt" data-key="poster_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div></div>
 
       <div class="card tool-card"><h3><span class="num">03</span>產品拍照 · 一鍵升級 IG 風</h3><p>手機隨手拍的菜照，丟給 Gemini / Nano Banana 改成主題系列。原圖記得留白。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>把這張照片改成：暖色調、頂光、木質背景，加 1 杯紅酒、餐巾，留白給文案。生 3 個版本給我挑。</div><button class="tool-go" data-key="photo" data-url="https://gemini.google.com" onclick="markTool(this)">開啟 Gemini</button></div>
 
-      <div class="card tool-card"><h3><span class="num">04</span>SOP 表單 · 30 秒生成</h3><p>新人教學、清潔檢查、交班，都用 AI 起草成表格，再請它「加 3 項常被忽略的」。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>我是社區義大利麵店，幫我做一份「早班清潔檢查表」，含：開店前 30 分鐘要做的 8 件事、每件事的判斷標準、紀錄方式（打勾／拍照）。用表格形式。</div><button class="tool-go" data-key="sop" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button></div>
+      <div class="card tool-card"><h3><span class="num">04</span>SOP 表單 · 30 秒生成</h3><p>新人教學、清潔檢查、交班，都用 AI 起草成表格，再請它「加 3 項常被忽略的」。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>我是社區義大利麵店，幫我做一份「早班清潔檢查表」，含：開店前 30 分鐘要做的 8 件事、每件事的判斷標準、紀錄方式（打勾／拍照）。用表格形式。</div><div class="tool-btns"><button class="tool-go" data-key="sop" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button><button class="tool-go alt" data-key="sop_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div></div>
 
-      <div class="card tool-card"><h3><span class="num">05</span>7 天社群內容規劃法</h3><p>一個活動主題 × AI 一次排 7 天貼文：預告→倒數→故事→細節→見證→提醒→開跑。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>我是社區義大利麵店，下週辦父親節活動主推海陸雙人套餐 1280 元。幫我規劃 7 天 IG / LINE OA 貼文，照預告→倒數→故事→細節→見證→提醒→開跑。每篇給主題、文案、配圖建議。</div><button class="tool-go" data-key="social7" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button></div>
+      <div class="card tool-card"><h3><span class="num">05</span>7 天社群內容規劃法</h3><p>一個活動主題 × AI 一次排 7 天貼文：預告→倒數→故事→細節→見證→提醒→開跑。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>我是社區義大利麵店，下週辦父親節活動主推海陸雙人套餐 1280 元。幫我規劃 7 天 IG / LINE OA 貼文，照預告→倒數→故事→細節→見證→提醒→開跑。每篇給主題、文案、配圖建議。</div><div class="tool-btns"><button class="tool-go" data-key="social7" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button><button class="tool-go alt" data-key="social7_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div></div>
 
-      <div class="card tool-card"><h3><span class="num">06</span>LINE OA 群發 · 3 種分眾版型</h3><p>給對象、活動、字數限制、CTA，AI 一次產節慶版（全體）、會員版（VIP）、回購版（沉睡客）。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>幫我寫 LINE 群發父親節海陸套餐 1280 的 3 種版本：①全體會員 ②VIP（加贈紅酒）③30 天未上門回購提醒。每則 120 字內、結尾附回覆關鍵字 CTA。</div><button class="tool-go" data-key="lineoa" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button></div>
+      <div class="card tool-card"><h3><span class="num">06</span>LINE OA 群發 · 3 種分眾版型</h3><p>給對象、活動、字數限制、CTA，AI 一次產節慶版（全體）、會員版（VIP）、回購版（沉睡客）。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>幫我寫 LINE 群發父親節海陸套餐 1280 的 3 種版本：①全體會員 ②VIP（加贈紅酒）③30 天未上門回購提醒。每則 120 字內、結尾附回覆關鍵字 CTA。</div><div class="tool-btns"><button class="tool-go" data-key="lineoa" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button><button class="tool-go alt" data-key="lineoa_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div></div>
 
-      <div class="card tool-card"><h3><span class="num">07</span>Google 評價 · AI 回覆模板</h3><p>好評加深印象、負評不踩雷。負評鐵則：<b>先道歉 → 承認問題 → 說明處理 → 私訊邀約</b>，不要先解釋。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>幫我回這則負評（先道歉、不解釋、承認問題、說明會改什麼、邀請私訊）：「等了 50 分鐘才上菜，店員表情很臭，不會再去。」語氣誠懇、80 字內。</div><button class="tool-go" data-key="review" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button></div>
+      <div class="card tool-card"><h3><span class="num">07</span>Google 評價 · AI 回覆模板</h3><p>好評加深印象、負評不踩雷。負評鐵則：<b>先道歉 → 承認問題 → 說明處理 → 私訊邀約</b>，不要先解釋。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>幫我回這則負評（先道歉、不解釋、承認問題、說明會改什麼、邀請私訊）：「等了 50 分鐘才上菜，店員表情很臭，不會再去。」語氣誠懇、80 字內。</div><div class="tool-btns"><button class="tool-go" data-key="review" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button><button class="tool-go alt" data-key="review_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div></div>
 
-      <div class="card tool-card"><h3><span class="num">08</span>異業合作邀約信 · 30 秒寫好</h3><p>找隔壁咖啡店、瑜伽教室、社區媽媽群。結構：自我介紹→為什麼找你→合作方案→降低門檻。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>幫我寫一封異業合作邀約信給同社區的瑜伽教室：我是義式料理小店，提「學員出示課證享 9 折+甜點、我幫你發 DM」，先試一個月無成本，約這週見面 15 分鐘。</div><button class="tool-go" data-key="invite" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button></div>
+      <div class="card tool-card"><h3><span class="num">08</span>異業合作邀約信 · 30 秒寫好</h3><p>找隔壁咖啡店、瑜伽教室、社區媽媽群。結構：自我介紹→為什麼找你→合作方案→降低門檻。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>幫我寫一封異業合作邀約信給同社區的瑜伽教室：我是義式料理小店，提「學員出示課證享 9 折+甜點、我幫你發 DM」，先試一個月無成本，約這週見面 15 分鐘。</div><div class="tool-btns"><button class="tool-go" data-key="invite" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button><button class="tool-go alt" data-key="invite_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div></div>
     </div>
     <p class="muted-note">＊以上連結若與現場展示不同，以講師現場公告為準。產出的草稿請務必自己再潤一次再用。</p>
   </div>
@@ -459,7 +463,7 @@
     <!-- 格 3：獲利估算（文字為主，可附圖）-->
     <div class="up-card" id="up3">
       <div class="up-head"><span class="up-badge">③</span><h3>獲利估算</h3><span class="cnt" id="cnt3">0 張</span></div>
-      <p class="up-desc"><b>10／20／50／N 組客人各能賺多少？</b>說明最差與預期。文字為主，可附 ROI 試算截圖。</p>
+      <p class="up-desc"><b>10／20／50／N 組客人各能賺多少？</b>說明最差與預期。<b>文字為主，只填文字也算完成這格</b>，可另附 ROI 試算截圖。</p>
       <div class="thumbs" id="thumbs3"></div>
       <label class="addbtn"><span>📷 附 ROI 試算圖（選填）</span><input type="file" accept="image/*" multiple data-item="2" style="display:none"></label>
       <textarea class="up-note big" id="note3" placeholder="文字為主：例如&#10;保守 10 組 淨利 3,000（23%）／目標 20 組 8,100（32%）／爆款 50 組 25,000（39%）&#10;最差情境：打平不虧；最容易被低估的是人力成本。"></textarea>
@@ -798,8 +802,10 @@
         return '<div class="thumb'+(p.error?' err':'')+'">'+inner+'<button class="rm" data-rm="'+i+'|'+p.id+'" title="移除">×</button></div>';
       }).join('');
       var c=document.getElementById('cnt'+(i+1)); var n=arr.filter(function(p){return p.url;}).length;
-      c.textContent=n+' 張'; c.classList.toggle('has', n>0);
-      var card=document.getElementById('up'+(i+1)); if(card) card.classList.toggle('filled', n>0);
+      var t3ok=(i===2 && (state.notes[2]||'').trim().length>0);
+      c.textContent = (i===2 && n===0 && t3ok) ? '文字 ✓' : (n+' 張');
+      c.classList.toggle('has', n>0 || t3ok);
+      var card=document.getElementById('up'+(i+1)); if(card) card.classList.toggle('filled', n>0 || t3ok);
     }
     var done = countDone();
     var who=document.getElementById('pitchWho');
@@ -821,7 +827,7 @@
     updateScoreUI();
     updateTabChecks();
   }
-  function countDone(){ var d=0; for(var i=0;i<3;i++){ if((state.items[i]||[]).some(function(p){return p.url;})) d++; } return d; }
+  function countDone(){ var d=0; for(var i=0;i<3;i++){ var hasPhoto=(state.items[i]||[]).some(function(p){return p.url;}); var textOk=(i===2 && (state.notes[2]||'').trim().length>0); if(hasPhoto||textOk) d++; } return d; }
   function setStatus(s){ var el=document.getElementById('saveStatus'); if(el) el.innerHTML = s; }
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];}); }
   function escAttr(s){ return esc(s); }
@@ -933,7 +939,7 @@
     document.querySelectorAll('input[type=file][data-item]').forEach(function(inp){
       inp.addEventListener('change', function(){ var idx=+inp.getAttribute('data-item'); if(inp.files&&inp.files.length) addFiles(idx, inp.files); inp.value=''; });
     });
-    [0,1,2].forEach(function(i){ var t=document.getElementById('note'+(i+1)); if(t){ t.addEventListener('input', function(){ state.notes[i]=t.value; save(); }); t.addEventListener('blur', function(){ syncRow(); }); } });
+    [0,1,2].forEach(function(i){ var t=document.getElementById('note'+(i+1)); if(t){ t.addEventListener('input', function(){ state.notes[i]=t.value; save(); if(i===2) render(); }); t.addEventListener('blur', function(){ syncRow(); }); } });
     document.querySelectorAll('.thumbs').forEach(function(box){
       box.addEventListener('click', function(e){
         var z=e.target.closest('[data-zoom]'); if(z){ openLb(z.getAttribute('data-zoom')); return; }
