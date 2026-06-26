@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f6faf1">
 <meta name="robots" content="noindex,nofollow">
-<title>講師展示台（分組版）｜AI × LINE 會員經營實戰工作坊</title>
+<title>講師展示台（分組版）｜AI × LINE 餐飲即戰力工作坊</title>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-RDJD1YVHR7"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-RDJD1YVHR7');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,6 +76,15 @@
   #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(40px);z-index:90;background:var(--navy);color:#fff;font-weight:800;padding:12px 20px;border-radius:12px;opacity:0;transition:.25s;pointer-events:none;}
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+  .lboard{background:var(--bg2);border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:16px;padding:14px 16px;margin-bottom:16px;}
+  .lboard h4{margin:0 0 10px;color:var(--navy);font-size:1.05rem;display:flex;align-items:center;gap:8px;}
+  .lboard .rows{display:grid;gap:6px;}
+  .lboard .lrow{display:flex;align-items:center;gap:12px;padding:8px 13px;border-radius:10px;background:var(--bg3);}
+  .lboard .lrow .rk{font-weight:900;color:var(--mute);min-width:30px;font-size:1.05rem;}
+  .lboard .lrow.top1{background:linear-gradient(90deg,rgba(245,180,0,.28),var(--bg3));}
+  .lboard .lrow .gc{font-weight:900;color:var(--navy);} .lboard .lrow .gn{color:var(--mute);font-size:.85rem;}
+  .lboard .lrow .pts{margin-left:auto;font-weight:900;color:var(--green-d);font-size:1.15rem;white-space:nowrap;} .lboard .lrow .pts small{color:var(--mute);font-weight:700;font-size:.7rem;}
+  .gcard .code .score{font-size:.78rem;font-weight:900;color:var(--green-d);background:var(--bg3);border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin-left:6px;white-space:nowrap;}
   :root[data-theme="dark"]{ --bg:#141b2e; --bg2:#1d2740; --bg3:#28344f; --tint:#1d2740; --ink:#eef2ff; --mute:#9fb0d8; --line:#33405e; --navy:#eef2ff; }
   :root[data-theme="dark"] header{background:rgba(20,27,46,.96);}
   :root[data-theme="dark"] .reveal{background:rgba(20,27,46,.95);}
@@ -86,11 +95,12 @@
 <body>
 <div class="stripe"></div>
 <header><div class="bar">
-  <span class="ttl">📺 講師展示台 <small>AI × LINE 會員經營 · 分組版</small></span>
+  <span class="ttl">📺 講師展示台 <small>AI × LINE 餐飲即戰力 · 分組版</small></span>
   <div class="stat">
     <span class="chip">組數 <b id="cTotal">0</b></span>
     <span class="chip" style="border-color:var(--gold)">🙋 想上台 <b id="cWant" style="color:var(--gold-d)">0</b></span>
     <span class="chip">已發表 <b id="cDone">0</b></span>
+    <button class="btn btn-g" id="btnScore">🏆 分數榜</button>
     <span class="chip" id="cUpd">—</span>
     <button class="btn btn-g" id="btnReload">↻ 整理</button>
     <button class="btn btn-g" id="btnTheme">🌓 深色</button>
@@ -99,7 +109,8 @@
   </div>
 </div></header>
 <div class="wrap">
-  <p class="hint">🙋 <b style="color:var(--gold-d)">想上台的組會變金框置頂</b>。點任一組放大看 3 份成果照片；<kbd>R</kbd> 隨機抽 · <kbd>←</kbd>/<kbd>→</kbd> 上下組 · <kbd>D</kbd> 標記已發表 · <kbd>Esc</kbd> 返回。每 15 秒自動同步。</p>
+  <p class="hint">🙋 <b style="color:var(--gold-d)">想上台的組會變金框置頂</b>。卡片右上是<b>本組小考總分</b>（個人加總）。點任一組放大看 3 格成果；<kbd>R</kbd> 隨機抽 · <kbd>←</kbd>/<kbd>→</kbd> 上下組 · <kbd>D</kbd> 標記已發表 · <kbd>Esc</kbd> 返回。每 15 秒自動同步。</p>
+  <div id="board" class="lboard" style="display:none"></div>
   <div id="grid" class="grid"></div>
   <div id="empty" class="empty" style="display:none"><div class="big">還沒有組別上傳成果</div><div>各組在「提案」分頁上傳照片後，這裡就會即時出現。</div></div>
 </div>
@@ -127,8 +138,8 @@
   var SUPA_KEY='sb_publishable_Tuj9p4DXvO-jEqVcBnumTg_TqZ1NnRu';
   var COURSE='ai-line-member-team';
   var DONE_STORE='lwteam_board_done_v1';
-  var ITEMS=[['①','RFM 分析圖'],['②','會員等級草案'],['③','完整會員經營企劃']];
-  var rows=[], doneSet=loadDone(), curIdx=-1;
+  var ITEMS=[['①','活動主題'],['②','行銷內容'],['③','獲利估算']];
+  var rows=[], doneSet=loadDone(), curIdx=-1, scoreMap={};
   function loadDone(){ try{return new Set(JSON.parse(localStorage.getItem(DONE_STORE)||'[]'));}catch(e){return new Set();} }
   function saveDone(){ try{localStorage.setItem(DONE_STORE,JSON.stringify(Array.from(doneSet)));}catch(e){} }
   var toastT; function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show');},2200);}
@@ -162,21 +173,44 @@
       var mini=[0,1,2].map(function(i){ var a=urls(r,i); var first=a[0]&&a[0].url;
         return '<div class="m">'+(first?'<img src="'+esc(first)+'">':'<div class="ph">'+ITEMS[i][0]+'</div>')+(a.length?'<span class="n">'+a.length+'</span>':'')+'</div>';
       }).join('');
+      var sc=scoreMap[r.code];
       return '<div class="gcard'+(done?' done':'')+(want?' want':'')+'" data-code="'+esc(r.code)+'">'+
         (want?'<span class="wantbadge">🙋 想上台</span>':'')+
-        '<div class="code"><b>'+esc(r.code)+'</b> 組</div>'+
+        '<div class="code"><b>'+esc(r.code)+'</b> 組'+(sc?'<span class="score">🏆 '+sc.total+' 分</span>':'')+'</div>'+
         '<div class="nm">'+esc(r.name||'（未填組名）')+'</div>'+
         '<div class="mini">'+mini+'</div>'+
         '<div class="meta">'+n+' 張照片 · '+fmtTime(r.updated_at)+(want?' · 🙋'+fmtTime(r.wants_stage_at):'')+'</div>'+
       '</div>';
     }).join('');
+    renderBoard();
+  }
+  function renderBoard(){
+    var el=document.getElementById('board'); if(!el) return;
+    var codes=Object.keys(scoreMap);
+    if(!codes.length){ el.innerHTML='<h4>🏆 各組小考總分（個人分加總）</h4><div style="color:var(--mute)">還沒有人作答計分。學員到「小考」答題後就會出現。</div>'; return; }
+    codes.sort(function(a,b){return scoreMap[b].total-scoreMap[a].total || a.localeCompare(b);});
+    var nameOf={}; rows.forEach(function(r){nameOf[r.code]=r.name||'';});
+    el.innerHTML='<h4>🏆 各組小考總分（個人分加總）</h4><div class="rows">'+codes.map(function(c,i){
+      var s=scoreMap[c], rk=(i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.');
+      return '<div class="lrow'+(i===0?' top1':'')+'"><span class="rk">'+rk+'</span><span class="gc">'+esc(c)+' 組</span>'+(nameOf[c]?'<span class="gn">'+esc(nameOf[c])+'</span>':'')+'<span class="pts">'+s.total+' <small>分・'+s.members+' 人</small></span></div>';
+    }).join('')+'</div>';
+  }
+  async function fetchScores(){
+    try{
+      var res=await fetch(SUPA_URL+'/rest/v1/lw_team_scores?course=eq.'+encodeURIComponent(COURSE)+'&select=code,name,score',{headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}});
+      if(!res.ok) return;
+      var arr=await res.json(); var m={};
+      arr.forEach(function(r){ var c=r.code; if(!m[c]) m[c]={total:0,members:0}; m[c].total+=(+r.score||0); m[c].members++; });
+      scoreMap=m;
+    }catch(e){}
   }
   function idxOf(code){ for(var i=0;i<rows.length;i++) if(rows[i].code===code) return i; return -1; }
   function openStage(code){
     var i=idxOf(code); if(i<0)return; curIdx=i; var r=rows[i]; var nt=notes(r);
     document.getElementById('sCode').innerHTML='<b>'+esc(r.code)+'</b> 組';
     document.getElementById('sName').textContent=r.name||'（未填組名）';
-    document.getElementById('sMeta').textContent=photoCount(r)+' 張 · 更新 '+fmtTime(r.updated_at)+(r.wants_stage?' · 🙋 想上台 '+fmtTime(r.wants_stage_at):'')+(doneSet.has(r.code)?' · ✓ 已發表':'');
+    var sc=scoreMap[r.code];
+    document.getElementById('sMeta').textContent=(sc?'🏆 '+sc.total+' 分（'+sc.members+' 人）· ':'')+photoCount(r)+' 張 · 更新 '+fmtTime(r.updated_at)+(r.wants_stage?' · 🙋 想上台 '+fmtTime(r.wants_stage_at):'')+(doneSet.has(r.code)?' · ✓ 已發表':'');
     var body=ITEMS.map(function(it,idx){
       var a=urls(r,idx);
       var gal=a.length?a.map(function(o){return '<img src="'+esc(o.url)+'" data-zoom="'+esc(o.url)+'" alt="成果照片">';}).join('')
@@ -190,7 +224,7 @@
   }
   function closeStage(){ document.getElementById('stage').classList.remove('show'); curIdx=-1; }
   function step(d){ if(!rows.length)return; if(curIdx<0){openStage(rows[0].code);return;} openStage(rows[(curIdx+d+rows.length)%rows.length].code); }
-  function markDone(){ if(curIdx<0)return; var c=rows[curIdx].code; if(doneSet.has(c)){doneSet.delete(c);toast('已取消「'+c+'組」發表標記');}else{doneSet.add(c);toast('✓ 已標記「'+c+'組」發表');} saveDone(); render(); var r=rows[curIdx]; document.getElementById('sMeta').textContent=photoCount(r)+' 張 · 更新 '+fmtTime(r.updated_at)+(r.wants_stage?' · 🙋 想上台 '+fmtTime(r.wants_stage_at):'')+(doneSet.has(c)?' · ✓ 已發表':''); }
+  function markDone(){ if(curIdx<0)return; var c=rows[curIdx].code; if(doneSet.has(c)){doneSet.delete(c);toast('已取消「'+c+'組」發表標記');}else{doneSet.add(c);toast('✓ 已標記「'+c+'組」發表');} saveDone(); render(); var r=rows[curIdx]; var sc=scoreMap[c]; document.getElementById('sMeta').textContent=(sc?'🏆 '+sc.total+' 分（'+sc.members+' 人）· ':'')+photoCount(r)+' 張 · 更新 '+fmtTime(r.updated_at)+(r.wants_stage?' · 🙋 想上台 '+fmtTime(r.wants_stage_at):'')+(doneSet.has(c)?' · ✓ 已發表':''); }
   function randomPick(){
     if(!rows.length){toast('還沒有組別上傳');return;}
     var pool=rows.filter(function(r){return !doneSet.has(r.code);}); if(!pool.length)pool=rows.slice();
@@ -201,7 +235,7 @@
       if(spins>=max){ clearInterval(t); rc.innerHTML='<b>'+esc(pick.code)+'</b> 組'; rn.textContent=pick.name||''; if(window.gtag)gtag('event','board_random',{code:pick.code}); setTimeout(function(){rv.classList.remove('show');openStage(pick.code);},1100); }
     },70);
   }
-  async function reload(silent){ try{ rows=await fetchRows(); render(); document.getElementById('cUpd').textContent='更新 '+new Date().toLocaleTimeString('zh-TW',{hour12:false}); if(!silent)toast('已同步 '+rows.length+' 組'); }catch(e){ if(!silent)toast('讀取失敗：'+e.message); } }
+  async function reload(silent){ try{ await fetchScores(); rows=await fetchRows(); render(); document.getElementById('cUpd').textContent='更新 '+new Date().toLocaleTimeString('zh-TW',{hour12:false}); if(!silent)toast('已同步 '+rows.length+' 組'); }catch(e){ if(!silent)toast('讀取失敗：'+e.message); } }
   function toggleFs(){ if(!document.fullscreenElement){(document.documentElement.requestFullscreen||function(){})();}else{(document.exitFullscreen||function(){})();} }
   function setTheme(t){ if(t!=='dark')t='light'; document.documentElement.setAttribute('data-theme',t); try{localStorage.setItem('lwteam_board_theme',t);}catch(e){} var b=document.getElementById('btnTheme'); if(b)b.textContent=(t==='dark'?'☀️ 白底':'🌓 深色'); }
   function openLb(u){document.getElementById('lbImg').src=u;document.getElementById('lb').classList.add('show');}
@@ -210,6 +244,7 @@
   document.getElementById('grid').addEventListener('click',function(e){var c=e.target.closest('.gcard');if(c)openStage(c.getAttribute('data-code'));});
   document.getElementById('sBody').addEventListener('click',function(e){var z=e.target.closest('[data-zoom]');if(z)openLb(z.getAttribute('data-zoom'));});
   document.getElementById('btnReload').addEventListener('click',function(){reload(false);});
+  document.getElementById('btnScore').addEventListener('click',function(){var el=document.getElementById('board');var show=el.style.display==='none';el.style.display=show?'block':'none';this.classList.toggle('btn-p',show);if(show){renderBoard();el.scrollIntoView({behavior:'smooth',block:'nearest'});}});
   document.getElementById('btnRandom').addEventListener('click',randomPick);
   document.getElementById('btnFs').addEventListener('click',toggleFs);
   document.getElementById('btnTheme').addEventListener('click',function(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');});
