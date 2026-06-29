@@ -417,7 +417,7 @@
   <div class="wrap">
     <div class="sec-tag">QUIZ · 章節小考（答對 +1，個人分累進組分）</div>
     <h2 class="sec-title">每章 <span class="em">3 題</span>，答對就加分 🐢</h2>
-    <p class="sec-desc">先選組別＋填你的名字才會計分。每題作答後會公布正解與「為什麼」，<b>每題只能作答一次</b>。你答對的分數會 1:1 算進你這組的總分。</p>
+    <p class="sec-desc">先選組別＋填你的名字才會計分。每題作答後會公布正解與「為什麼」，<b>同一個學員每題只能作答一次（換裝置、重整都鎖住，不能重答）</b>。你答對的分數會 1:1 算進你這組的總分。</p>
 
     <div class="scorebar">
       <div class="sc" id="scMine">0 <small>你的得分（滿分 9）</small></div>
@@ -679,6 +679,20 @@
       state.groupTotal=total; state.groupMembers=arr.length; updateScoreUI();
     }catch(e){}
   }
+  // 抓這位學員雲端已作答的題目（換裝置／清快取也鎖得住「每題只能答一次」）
+  async function fetchMyScore(code, person){
+    try{
+      var res=await fetchT(SUPA_URL+'/rest/v1/lw_team_scores?course=eq.'+encodeURIComponent(COURSE)+'&code=eq.'+encodeURIComponent(code)+'&name=eq.'+encodeURIComponent(person)+'&select=score,answers',
+        {headers:{apikey:SUPA_KEY,Authorization:'Bearer '+SUPA_KEY}},12000);
+      if(!res.ok) return null;
+      var arr=await res.json(); return arr&&arr[0]?arr[0]:null;
+    }catch(e){ return null; }
+  }
+  function mergeAnswers(serverAnswers){
+    if(!serverAnswers||typeof serverAnswers!=='object') return;
+    Object.keys(serverAnswers).forEach(function(qid){ if(state.quiz[qid]===undefined||state.quiz[qid]===null) state.quiz[qid]=serverAnswers[qid]; });
+  }
+  function recomputeScore(){ var s=0; QUIZ.forEach(function(b){ b.qs.forEach(function(qq){ if(state.quiz[qq.id]===qq.a) s++; }); }); state.score=s; }
 
   /* ---------- 圖片壓縮 ---------- */
   function compressImage(file){
@@ -771,7 +785,7 @@
     if(!q) return;
     state.quiz[qid]=choice;
     var correct=(choice===q.a);
-    if(correct) state.score=(state.score||0)+1;
+    recomputeScore();
     save(); renderQuiz();
     if(correct){ toast('✓ 答對 +1 分！'); turtleSay('答對 +1 分 🐢 這分會算進 <b>'+esc(state.group.code)+' 組</b>的總分'); }
     else { toast('正解是 '+LETTER[q.a]+'，看一下「為什麼」🐢'); }
@@ -862,7 +876,8 @@
       try{ var nn=JSON.parse(row.note||'[]'); if(Array.isArray(nn)) state.notes=[nn[0]||'',nn[1]||'',nn[2]||'']; }catch(e){}
       state.wants_stage=!!row.wants_stage;
     }
-    save(); closeReg(); render(); syncRow(); syncScore(); fetchGroupScore(code);
+    var mine2=await fetchMyScore(code, person); if(mine2){ mergeAnswers(mine2.answers); } recomputeScore();
+    save(); closeReg(); render(); renderQuiz(); syncRow(); syncScore(); fetchGroupScore(code);
     setStatus('已選 '+code+' 組');
     track('group_select',{code:code});
     turtleSay('歡迎 <b>'+esc(person)+'</b>（'+esc(code)+' 組）！到「小考」答題加分，到「提案」交 3 格成果 🐢');
@@ -956,7 +971,8 @@
     setInterval(function(){ if(state.group && navigator.onLine!==false){ syncRow(); syncScore(); } }, 25000);
     window.addEventListener('online', function(){ if(state.group){ syncRow(); syncScore(); } });
     renderQuiz(); render();
-    if(state.group) fetchGroupScore(state.group.code);
+    if(state.group){ fetchGroupScore(state.group.code);
+      if(state.person){ fetchMyScore(state.group.code, state.person).then(function(mine){ if(mine){ mergeAnswers(mine.answers); recomputeScore(); save(); renderQuiz(); render(); syncScore(); } }); } }
     setTimeout(function(){ if(!state.group){ turtleSay('嗨～我是小龜助手！報到拿到的是<b>哪一組</b>？先選組別、填名字吧 🐢'); setTimeout(openReg, 900); } else { turtleSay('歡迎回來 '+esc(state.person||state.group.code+' 組')+' 🐢'); } }, 700);
   })();
   function openLb(url){ document.getElementById('lbImg').src=url; document.getElementById('lb').classList.add('show'); }
