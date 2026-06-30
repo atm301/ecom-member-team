@@ -119,6 +119,7 @@
   .tool-go.alt{background:var(--bg2);color:var(--green-d);border:2px solid var(--green);}
   .tool-go.alt:hover{background:var(--tint);}
   .tool-go.alt.done{background:var(--gold);color:#3a2800;border-color:var(--gold);}
+  .tool-ref{margin-top:10px;font-size:.83rem;color:var(--mute);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
   .tool-card.done{border-top-color:var(--gold);}
   .prompt{margin:10px 0 4px;background:#16241c;color:#dff3e6;border-radius:10px;padding:11px 13px;font-size:.82rem;line-height:1.7;white-space:pre-wrap;font-family:'Noto Sans TC',monospace;}
   .prompt .pl{display:block;color:#7fe0a6;font-weight:800;font-size:.72rem;margin-bottom:4px;letter-spacing:.05em;}
@@ -354,7 +355,7 @@
     <h2 class="sec-title">今天會用到的 <span class="em">9 個招式</span></h2>
     <p class="sec-desc">每張卡片附「可直接複製的 prompt」。點「開啟工具」會在新分頁打開對應 AI；產出後記得<b>截圖</b>，到「提案」上傳。</p>
     <div class="grid g2">
-      <div class="card tool-card"><h3><span class="num">01</span>LINE 圖文選單與活動內容</h3><p>用 AI 生一張圖文選單背景圖（2×3 共 6 格），再上 LINE 官方帳號後台設定每格點擊動作。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>請設計一張 LINE 圖文選單背景圖，2500×1686 像素，分成 2×3 共 6 格。整體採暖色系（橘紅 + 米白），中央保留留白區供圖示放置；風格簡約、有食物質感，預留下方文字標籤位置（優惠券／菜單／訂位／最新消息／IG／私訊）。</div><div class="tool-btns"><button class="tool-go" data-key="richmenu" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button><button class="tool-go alt" data-key="richmenu_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div></div>
+      <div class="card tool-card"><h3><span class="num">01</span>LINE 圖文選單與活動內容</h3><p>用 AI 生一張圖文選單背景圖（2×3 共 6 格），再上 LINE 官方帳號後台設定每格點擊動作。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>請設計一張 LINE 圖文選單背景圖，2500×1686 像素，分成 2×3 共 6 格。整體採暖色系（橘紅 + 米白），中央保留留白區供圖示放置；風格簡約、有食物質感，預留下方文字標籤位置（優惠券／菜單／訂位／最新消息／IG／私訊）。</div><div class="tool-btns"><button class="tool-go" data-key="richmenu" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button><button class="tool-go alt" data-key="richmenu_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div><div class="tool-ref">🔗 官方範例：<a href="https://tw.linebiz.com/download/line-official-account/" target="_blank" rel="noopener" data-out="line_menu_tpl">LINE 官方帳號圖文選單模板下載</a></div></div>
 
       <div class="card tool-card"><h3><span class="num">02</span>菜單設計 · 一段話生整套</h3><p>從食材、品名到定價，告訴 AI 店型／客群／預算／風格，一次出 4 道菜。</p><div class="prompt"><span class="pl">▌ Prompt 範例</span>我是一家社區義大利麵店，7/15-8/8 想推父親節主題，預算 1280 元/組。幫我設計 4 道菜的雙人套餐，含品名、口味描述、定價建議、給長輩的吃法說明。</div><div class="tool-btns"><button class="tool-go" data-key="menu" data-url="https://chatgpt.com" onclick="markTool(this)">開啟 ChatGPT</button><button class="tool-go alt" data-key="menu_g" data-url="https://gemini.google.com" onclick="markTool(this)">或 Gemini</button></div></div>
 
